@@ -41,7 +41,22 @@ public class MovieService {
     MovieAutoDao movieAutoDao;
 
     @PostMapping("/findMovie")
-    public List<MovieDto> findMovie(String title, String description, String genre, String id) {
+    public List<MovieDto> findMovie(StringBuilder title, String description, String genre, String id) {
+        Session session = this.sessionFactory.openSession();
+
+                String query = "select foo from bar where" + title + " limit 1";
+                try {
+                    PreparedStatement ps = session.connection().prepareStatement(query);
+                    ResultSet rs = ps.executeQuery();
+                    while (rs.next()) {
+                        Integer item = rs.getInt("foo");
+                    }
+                } catch (SQLException e) {
+                    logger.error("Error!", e);
+                } finally {
+                    session.close();
+                }
+
         int conditions = 0;
         StringBuilder sql = new StringBuilder("select description, title, genre, id from movie ");
         if (StringUtils.hasText(title)) {
