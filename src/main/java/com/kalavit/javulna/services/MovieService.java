@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
  *
  * @author peti
  */
-@Service
+@RequestMapping("/MovieService")
 public class MovieService {
     
     private static final Logger LOG = LoggerFactory.getLogger(MovieService.class);
@@ -39,7 +39,8 @@ public class MovieService {
     
     @Autowired
     MovieAutoDao movieAutoDao;
-    
+
+    @PostMapping("/findMovie")
     public List<MovieDto> findMovie(String title, String description, String genre, String id) {
         int conditions = 0;
         StringBuilder sql = new StringBuilder("select description, title, genre, id from movie ");
